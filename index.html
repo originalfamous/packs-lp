@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PACKS — 散財は、おもしろい。</title>
+<meta name="description" content="ポケカの購入記録アプリ。積み上げ高さ・称号・思い出のタイムライン。反省のためじゃない、自慢するための記録。データはぜんぶ端末の中だけ。">
+<meta property="og:title" content="PACKS — 散財は、おもしろい。">
+<meta property="og:description" content="ポケカの購入記録を、もっと楽しいデータに。買い切り¥980、月額なし。">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LINE+Seed+JP:wght@400;700;800&family=Manjari:wght@700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#08060F;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+summary::-webkit-details-marker{display:none}
+
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes pulseGlow{0%,100%{opacity:.45}50%{opacity:.9}}
+
+.rv{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.16,.7,.2,1),transform .8s cubic-bezier(.16,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}}
+
+@media(max-width:960px){
+  .g-hero{grid-template-columns:1fr!important;gap:64px!important}
+  .hero-stage{display:none!important}
+  .hero-text{text-align:center}
+  .hero-cta{justify-content:center!important}
+}
+@media(max-width:860px){
+  .bcell{grid-column:span 6!important}
+  .g-price{grid-template-columns:1fr!important}
+}
+@media(max-width:720px){.nav-links{display:none!important}}
+@media(max-width:640px){
+  .nav-logo{font-size:14px!important}
+  .nav-cta{font-size:11px!important;padding:7px 12px!important}
+  .app-btn{padding:12px 20px!important;gap:8px!important}
+  .app-btn svg{width:18px!important;height:18px!important}
+  .app-btn b{font-size:13px!important}
+  .hero-stage>div:first-child{right:-18%!important}
+}
+.sp-br{display:none}
+@media(max-width:640px){.sp-br{display:inline}}
+@media(max-width:640px){
+  /* セクション余白 */
+  header{padding:96px 0 48px!important}
+  #features{padding:60px 0!important}
+  #statement{padding:72px 0!important}
+  #price{padding:0 0 60px!important}
+  #faq{padding:0 0 60px!important}
+  #download{padding:0 0 60px!important}
+  footer{padding:40px 0 48px!important}
+
+  /* ヒーロー: 2枚を中央寄せで配置 */
+  .hero-stage{display:block!important;transform:none!important;margin-bottom:0!important;width:280px!important;height:300px!important;margin:36px auto 0!important;perspective:700px!important}
+  .hero-stage>div:first-child{width:130px!important;right:0!important;top:40px!important;border-radius:24px!important}
+  .hero-stage>div:nth-child(2){width:145px!important;left:0!important;top:0!important;border-radius:26px!important}
+  .hero-stage>div:nth-child(3),.hero-stage>div:nth-child(4){display:none!important}
+
+  /* タイポグラフィ統一スケール */
+  h1{font-size:38px!important;letter-spacing:-0.02em!important;line-height:1.05!important}
+  .hero-text p{font-size:15px!important}
+  #features h2,#statement h2,#price h2,#faq h2,#download h2{font-size:26px!important;line-height:1.3!important}
+  .bh h3{font-size:19px!important}
+  .bcell:not(.bh) h3{font-size:15px!important}
+
+  /* ベントーセル padding */
+  .bh{padding:20px!important}
+  .bcell:not(.bh){padding:16px!important}
+
+  /* サイズグラフ: 数字+画像を縦積み */
+  .sizograph-row{flex-direction:column!important;align-items:flex-start!important}
+  .sizograph-row img{width:64px!important;height:64px!important;margin-top:10px!important}
+
+  /* カレンダードット: 幅制限 */
+  .cal-grid{max-width:200px!important}
+
+  /* 料金カード */
+  .pc{padding:26px 20px!important}
+  .cta-box{padding:56px 20px!important}
+
+  /* FAQ */
+  details summary{font-size:15px!important;padding:18px 4px!important}
+}
+</style>
+</head>
+<body>
+<div style="font-family:'LINE Seed JP',-apple-system,sans-serif;color:#F3F1FF;background:#08060F;line-height:1.8;font-weight:400">
+
+<!-- ─── NAV ───────────────────────────────────────────── -->
+<div style="position:fixed;top:16px;left:0;right:0;z-index:100;display:flex;justify-content:center;padding:0 18px">
+  <nav style="display:flex;align-items:center;gap:24px;background:rgba(12,10,24,0.8);backdrop-filter:blur(24px) saturate(1.6);-webkit-backdrop-filter:blur(24px) saturate(1.6);border:1px solid rgba(139,132,255,0.18);padding:10px 12px 10px 22px;box-shadow:0 16px 48px rgba(0,0,0,0.6)">
+    <a href="#" class="nav-logo" style="font-family:'Manjari',sans-serif;font-weight:700;font-size:18px;letter-spacing:.02em;line-height:1;transform:translateY(4px);display:inline-block">PACKS</a>
+    <div class="nav-links" style="display:flex;gap:20px;font-size:14px;font-weight:700;color:rgba(243,241,255,0.45)">
+      <a href="#features" style="transition:color .2s" onmouseover="this.style.color='#F3F1FF'" onmouseout="this.style.color='rgba(243,241,255,0.45)'">できること</a>
+      <a href="#price" style="transition:color .2s" onmouseover="this.style.color='#F3F1FF'" onmouseout="this.style.color='rgba(243,241,255,0.45)'">料金</a>
+      <a href="#faq" style="transition:color .2s" onmouseover="this.style.color='#F3F1FF'" onmouseout="this.style.color='rgba(243,241,255,0.45)'">FAQ</a>
+    </div>
+    <a href="#download" class="nav-cta" style="font-size:13px;font-weight:800;color:#08060F;background:#C6FF3A;padding:9px 18px;letter-spacing:.01em;box-shadow:0 0 22px rgba(198,255,58,0.32)">
+      App Store <span style="opacity:.45;font-weight:700">近日</span>
+    </a>
+  </nav>
+</div>
+
+<!-- ─── HERO ──────────────────────────────────────────── -->
+<header style="position:relative;padding:200px 0 110px;overflow:hidden">
+  <div style="position:absolute;top:-260px;right:-100px;width:760px;height:760px;border-radius:50%;background:radial-gradient(circle at 38% 38%,rgba(109,100,232,0.35),rgba(91,75,224,0.08) 44%,transparent 68%);filter:blur(8px);pointer-events:none;animation:pulseGlow 8s ease-in-out infinite"></div>
+  <div style="position:absolute;bottom:-220px;left:-140px;width:580px;height:580px;border-radius:50%;background:radial-gradient(circle,rgba(198,255,58,0.1),transparent 66%);pointer-events:none"></div>
+
+  <div class="g-hero" style="max-width:1180px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;position:relative">
+
+    <!-- テキスト -->
+    <div class="hero-text">
+      <div style="display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.16em;color:#C6FF3A;border:1px solid rgba(198,255,58,0.3);padding:6px 16px;margin-bottom:28px">
+        ポケカ散財ログ
+      </div>
+      <h1 style="font-size:clamp(52px,7.8vw,96px);font-weight:800;line-height:.98;letter-spacing:-0.03em;margin-bottom:28px">
+        散財は、<br><span style="color:#8B84FF;text-shadow:0 0 40px rgba(139,132,255,0.5)">おもしろい</span>。
+      </h1>
+      <p style="font-size:17px;color:rgba(243,241,255,0.55);line-height:2;max-width:27em;margin-bottom:40px">
+        買った記録が、高さになり、<br class="sp-br">称号になり、思い出になる。<br>ポケカを買うのが好きな人のための、<br class="sp-br">節約しないアプリ。
+      </p>
+      <div class="hero-cta" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <a href="#download" class="app-btn" style="display:inline-flex;align-items:center;gap:11px;background:#C6FF3A;color:#08060F;padding:16px 28px;box-shadow:0 0 44px rgba(198,255,58,0.3)">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" style="flex-shrink:0"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
+          <span>
+            <small style="display:block;font-size:10px;font-weight:700;opacity:.55;letter-spacing:.05em;line-height:1.3">COMING SOON ON THE</small>
+            <b style="display:block;font-size:16px;font-weight:800;line-height:1.3">App Store</b>
+          </span>
+        </a>
+        <span style="font-size:14px;font-weight:700;color:rgba(243,241,255,0.35)">
+          <b style="color:rgba(243,241,255,0.6)">無料</b>ではじめる · アカウント登録なし
+        </span>
+      </div>
+    </div>
+
+    <!-- フォンモック -->
+    <div class="hero-stage" style="position:relative;height:640px;perspective:1400px" aria-hidden="true">
+
+      <!-- 後ろ: サイズグラフ画面 -->
+      <div style="position:absolute;right:-2%;top:90px;z-index:1;width:244px;transform:rotateY(14deg) rotateX(2deg) rotateZ(-2deg) scale(.94);box-shadow:-18px 44px 80px rgba(0,0,0,0.7);border-radius:46px;overflow:hidden">
+        <img src="../assets/images/screenshots/Simulator%20Screenshot%20-%20test%20-%202026-08-15%20at%2021.13.26.png" style="width:100%;display:block" alt="グラフ画面">
+      </div>
+
+      <!-- 前: ホーム画面 -->
+      <div style="position:absolute;left:4%;top:10px;z-index:2;width:264px;transform:rotateY(-14deg) rotateX(4deg) rotateZ(1deg);box-shadow:28px 48px 90px rgba(0,0,0,0.55);border-radius:50px;overflow:hidden">
+        <img src="../assets/images/screenshots/Simulator%20Screenshot%20-%20test%20-%202026-08-15%20at%2021.11.43.png" style="width:100%;display:block" alt="PACKSホーム画面">
+      </div>
+
+      <!-- フローティングチップ: 称号ランクアップ -->
+      <div style="position:absolute;z-index:3;top:-4px;right:0;background:#C6FF3A;color:#08060F;padding:10px 14px;box-shadow:0 16px 44px rgba(198,255,58,0.25);display:flex;align-items:center;gap:10px;animation:floaty 5s ease-in-out infinite">
+        <img src="../assets/images/ranks/rank_06.png" style="width:30px;height:30px;object-fit:contain" alt="">
+        <span style="font-size:10.5px;font-weight:800;line-height:1.5">称号ランクアップ！<b style="display:block;font-size:12px">沼のほとり</b></span>
+      </div>
+
+      <!-- フローティングチップ: 着地予測 -->
+      <div style="position:absolute;z-index:3;bottom:44px;left:-2%;background:rgba(18,14,36,0.94);backdrop-filter:blur(20px);border:1px solid rgba(139,132,255,0.25);color:#F3F1FF;padding:10px 14px;box-shadow:0 16px 50px rgba(0,0,0,0.5);display:flex;align-items:center;gap:10px;animation:floaty 7s ease-in-out infinite">
+        <div style="width:30px;height:30px;background:rgba(139,132,255,0.15);border-radius:6px;display:grid;place-items:center;font-size:14px;flex-shrink:0">☔</div>
+        <span style="font-size:10.5px;font-weight:700;line-height:1.5;color:rgba(243,241,255,0.6)">月末の着地予測<b style="display:block;font-size:12px;color:#F3F1FF;font-weight:800">¥14,200 の見込み</b></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ─── FEATURES / BENTO ──────────────────────────────── -->
+<section id="features" style="padding:120px 0">
+  <div style="max-width:1180px;margin:0 auto;padding:0 28px">
+    <div class="rv">
+      <div style="font-size:11.5px;font-weight:800;letter-spacing:.28em;color:#C6FF3A;margin-bottom:14px">FEATURES</div>
+      <h2 style="font-size:clamp(30px,4.4vw,50px);font-weight:800;letter-spacing:-0.02em;line-height:1.3;margin-bottom:16px">家計簿に入れたら「散財」。<br>PACKSに入れたら「コレクション」。</h2>
+      <p style="font-size:15px;color:rgba(243,241,255,0.48);line-height:2">タイトルを選んで数を入れるだけ。あとはアプリが勝手に、眺めて楽しいデータへ変換していきます。</p>
+      <p style="font-size:15px;color:rgba(243,241,255,0.42);margin-top:12px;font-weight:700">好きなことは、ちゃんと記録しておいたほうがいい。</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:52px">
+
+      <!-- ── TIER 1: ヒーロー 4+2 ── -->
+
+      <!-- SIZOGRAPHIC: 4列・ヒーロー -->
+      <div class="rv bcell bh" style="grid-column:span 4;border:1px solid rgba(139,132,255,0.15);background:linear-gradient(155deg,#120E28,#1C1248);padding:40px;position:relative;overflow:hidden">
+        <h3 style="font-size:24px;font-weight:800;letter-spacing:-0.02em;margin-bottom:10px;color:#F3F1FF">あなたのカード、積み上げたら何メートル？</h3>
+        <p style="font-size:14px;color:rgba(243,241,255,0.5);line-height:1.9;max-width:30em">積み上げたカードは、今どのくらいの"何か"と同じ？<br>高さ・面積・重さ・金額の4軸で換算する。</p>
+        <div class="sizograph-row" style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-top:28px">
+          <div>
+            <div style="font-size:68px;font-weight:800;letter-spacing:-0.05em;color:#F3F1FF;line-height:1">147.9<small style="font-size:20px;font-weight:700;color:rgba(243,241,255,0.38);margin-left:3px">cm</small></div>
+            <div style="font-size:14px;font-weight:700;color:#AFA9EC;margin-top:12px;line-height:1.8">皇帝ペンギン × 1.2羽分<br>「南極でもこの積みは観測されていない。」</div>
+          </div>
+          <img src="../assets/images/sizograph/height/height_023.png" style="width:113px;height:113px;object-fit:contain;flex-shrink:0" alt="皇帝ペンギン" aria-hidden="true">
+        </div>
+      </div>
+
+      <!-- RANK UP: 2列 -->
+      <div class="rv bcell" style="grid-column:span 2;border:1px solid rgba(139,132,255,0.15);background:#100C24;padding:32px">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.24em;color:#8B84FF;margin-bottom:12px">RANK UP</div>
+        <h3 style="font-size:19px;font-weight:800;letter-spacing:-0.01em;margin-bottom:8px;color:#F3F1FF">散財のたびに、称号が育つ。</h3>
+        <p style="font-size:14px;color:rgba(243,241,255,0.5);line-height:1.9">累計金額で全14段階。君の散財に、称号を授けよう。</p>
+        <div style="display:flex;align-items:center;gap:12px;margin-top:24px">
+          <div style="text-align:center">
+            <img src="../assets/images/ranks/rank_07.png" style="width:52px;height:52px;object-fit:contain" alt="沼スイマー">
+            <div style="font-size:9px;font-weight:700;color:rgba(243,241,255,0.4);margin-top:4px">沼スイマー</div>
+          </div>
+          <div style="color:rgba(243,241,255,0.25);font-weight:800;font-size:18px">›</div>
+          <div style="text-align:center">
+            <img src="../assets/images/ranks/rank_08.png" style="width:52px;height:52px;object-fit:contain" alt="エリートトレーナー">
+            <div style="font-size:9px;font-weight:700;color:#C6FF3A;margin-top:4px">エリートトレーナー</div>
+          </div>
+          <div style="color:rgba(243,241,255,0.25);font-weight:800;font-size:18px">›</div>
+          <div style="text-align:center">
+            <div style="width:52px;height:52px;border:1px solid rgba(139,132,255,0.2);display:grid;place-items:center;font-size:13px;font-weight:800;color:rgba(243,241,255,0.25)">?</div>
+            <div style="font-size:9px;font-weight:700;color:rgba(243,241,255,0.25);margin-top:4px">全14段階</div>
+          </div>
+        </div>
+        <div style="margin-top:16px;font-size:14px;color:rgba(243,241,255,0.35);font-weight:700">「財布が防御力を失った」— エリートトレーナー</div>
+      </div>
+
+      <!-- ── TIER 1: ヒーロー 4+2 ── -->
+
+      <!-- HISTORY: 4列・大 -->
+      <div class="rv bcell bh" style="grid-column:span 4;border:1px solid rgba(139,132,255,0.15);background:#100C24;padding:40px">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.24em;color:#8B84FF;margin-bottom:14px">HISTORY</div>
+        <h3 style="font-size:24px;font-weight:800;letter-spacing:-0.02em;margin-bottom:10px;color:#F3F1FF">記録が、思い出になる。</h3>
+        <p style="font-size:14px;color:rgba(243,241,255,0.5);line-height:1.9;max-width:34em">初めてのBOX、深夜の衝動、散財ラッシュ。<br>アプリが自動でハイライトを見つけ、タイムラインに刻む。</p>
+        <div style="margin-top:28px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div style="background:rgba(139,132,255,0.08);border:1px solid rgba(139,132,255,0.14);padding:11px 16px;font-size:14px;font-weight:700;color:rgba(243,241,255,0.7);border-radius:4px">初BOX購入</div>
+          <div style="background:rgba(139,132,255,0.08);border:1px solid rgba(139,132,255,0.14);padding:11px 16px;font-size:14px;font-weight:700;color:rgba(243,241,255,0.7);border-radius:4px">深夜の衝動購入</div>
+          <div style="background:rgba(198,255,58,0.06);border:1px solid rgba(198,255,58,0.18);padding:11px 16px;font-size:14px;font-weight:700;color:#C6FF3A;border-radius:4px">3日連続 散財ラッシュ</div>
+          <div style="background:rgba(139,132,255,0.08);border:1px solid rgba(139,132,255,0.14);padding:11px 16px;font-size:14px;font-weight:700;color:rgba(243,241,255,0.7);border-radius:4px">初めてのシングル購入</div>
+        </div>
+      </div>
+
+      <!-- PRIVACY: 2列 -->
+      <div class="rv bcell" style="grid-column:span 2;border:1px solid rgba(139,132,255,0.15);background:#100C24;padding:32px">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.24em;color:#8B84FF;margin-bottom:12px">PRIVACY</div>
+        <h3 style="font-size:19px;font-weight:800;letter-spacing:-0.01em;margin-bottom:8px;color:#F3F1FF">データ送信、ゼロ。</h3>
+        <p style="font-size:14px;color:rgba(243,241,255,0.5);line-height:1.9">サーバーがないので、あなたの散財履歴は誰にも見えない。アカウント登録も不要、オフラインでも動く。</p>
+        <div style="font-size:80px;font-weight:800;letter-spacing:-0.05em;line-height:1;margin-top:20px;color:#C6FF3A;text-shadow:0 0 40px rgba(198,255,58,0.35);text-align:center">0</div>
+        <div style="font-size:13px;font-weight:700;color:rgba(243,241,255,0.3);margin-top:6px;text-align:center">外部に送信されるデータの数</div>
+      </div>
+
+      <!-- ── TIER 3: コンパクト 2+2+2 ── -->
+
+      <!-- ALL SERIES: 2列・小 -->
+      <div class="rv bcell" style="grid-column:span 2;border:1px solid rgba(139,132,255,0.12);background:#0C0920;padding:24px">
+        <h3 style="font-size:16px;font-weight:800;letter-spacing:-0.01em;margin-bottom:6px;color:#F3F1FF">129タイトル以上、全部ある。</h3>
+        <p style="font-size:14px;color:rgba(243,241,255,0.45);line-height:1.8">旧・絶版タイトルも全て収録。昔買ったパックも残せる。</p>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:16px">
+          <img src="../assets/images/packImages/adv1.png" style="width:100%;aspect-ratio:1;object-fit:contain;border-radius:4px;padding:3px" alt="">
+          <img src="../assets/images/packImages/bw1.png" style="width:100%;aspect-ratio:1;object-fit:contain;border-radius:4px;padding:3px" alt="">
+          <img src="../assets/images/packImages/sm3a.png" style="width:100%;aspect-ratio:1;object-fit:contain;border-radius:4px;padding:3px" alt="">
+          <img src="../assets/images/packImages/ninja-spinner.png" style="width:100%;aspect-ratio:1;object-fit:contain;border-radius:4px;padding:3px" alt="">
+        </div>
+      </div>
+
+      <!-- CALENDAR: 2列・小 -->
+      <div class="rv bcell" style="grid-column:span 2;border:1px solid rgba(139,132,255,0.12);background:#0C0920;padding:24px">
+        <h3 style="font-size:16px;font-weight:800;letter-spacing:-0.01em;margin-bottom:6px;color:#F3F1FF">買った日が、灯る。</h3>
+        <p style="font-size:14px;color:rgba(243,241,255,0.45);line-height:1.8">給料日後の連続マークも、我慢した空白も、ぜんぶ愛おしい。</p>
+        <div class="cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:16px">
+          <i style="display:block;aspect-ratio:1;background:rgba(139,132,255,0.07);border-radius:2px"></i><i style="display:block;aspect-ratio:1;background:#2B3A66;border-radius:2px"></i><i style="display:block;aspect-ratio:1;background:rgba(139,132,255,0.07);border-radius:2px"></i><i style="display:block;aspect-ratio:1;background:rgba(139,132,255,0.07);border-radius:2px"></i><i style="display:block;aspect-ratio:1;background:#AFA9EC;border-radius:2px"></i><i style="display:block;aspect-ratio:1;background:rgba(139,132,255,0.07);border-radius:2px"></i><i style="display:block;aspect-ratio:1;background:rgba(139,132,255,0.07);border-radius:2px"></i>
+          <i style="display:block;aspect-ratio:1;background:#C6FF3A;border-radius:2px"></i><i style="display:block;aspect-ratio:1;background:rgba(139,132,255,0.07);border-radius:2px"></i><i style="display:block;aspect-ratio:1;background:#2B3A66;border-radius:2px"></i><i style="display:block;aspect-ratio:1;background:rgba(139,132,255,0.07);border-radius:2px"></i><i style="display:block;aspect-ratio:1;background:rgba(139,132,255,0.07);border-radius:2px"></i><i style="display:block;aspect-ratio:1;background:#AFA9EC;border-radius:2px"></i><i style="display:block;aspect-ratio:1;background:rgba(139,132,255,0.07);border-radius:2px"></i>
+          <i style="display:block;aspect-ratio:1;background:rgba(139,132,255,0.07);border-radius:2px"></i><i style="display:block;aspect-ratio:1;background:rgba(139,132,255,0.07);border-radius:2px"></i><i style="display:block;aspect-ratio:1;background:#C6FF3A;border-radius:2px"></i><i style="display:block;aspect-ratio:1;background:#AFA9EC;border-radius:2px"></i><i style="display:block;aspect-ratio:1;background:rgba(139,132,255,0.07);border-radius:2px"></i><i style="display:block;aspect-ratio:1;background:rgba(139,132,255,0.07);border-radius:2px"></i><i style="display:block;aspect-ratio:1;background:#2B3A66;border-radius:2px"></i>
+        </div>
+      </div>
+
+      <!-- FORECAST: 2列・小 -->
+      <div class="rv bcell" style="grid-column:span 2;border:1px solid rgba(139,132,255,0.12);background:#0C0920;padding:24px">
+        <h3 style="font-size:16px;font-weight:800;letter-spacing:-0.01em;margin-bottom:6px;color:#F3F1FF">月末を、こっそり予報。</h3>
+        <p style="font-size:14px;color:rgba(243,241,255,0.45);line-height:1.8">「このペースだと月末いくら？」その答えを、毎日こっそり更新する。</p>
+        <div style="margin-top:16px;border:1px solid rgba(139,132,255,0.16);padding:12px 14px;background:rgba(139,132,255,0.05);border-radius:4px">
+          <div style="font-size:9px;font-weight:700;color:rgba(243,241,255,0.35);margin-bottom:3px">今月の着地予測</div>
+          <div style="font-size:22px;font-weight:800;letter-spacing:-0.02em;color:#F3F1FF">¥14,200</div>
+          <div style="font-size:10px;font-weight:700;color:#F5B14A;margin-top:3px">☔ 予算超過の見込み。傘はありません。</div>
+        </div>
+      </div>
+
+      <!-- ── TIER 1: ヒーロー 4+2 ── -->
+
+      <!-- GRAPH: 4列・大 -->
+      <div class="rv bcell bh" style="grid-column:span 4;border:1px solid rgba(139,132,255,0.15);background:#100C24;padding:40px">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.24em;color:#8B84FF;margin-bottom:14px">GRAPH</div>
+        <h3 style="font-size:24px;font-weight:800;letter-spacing:-0.02em;margin-bottom:10px;color:#F3F1FF">散財の歴史が、グラフになる。</h3>
+        <p style="font-size:14px;color:rgba(243,241,255,0.5);line-height:1.9;max-width:34em">これまでのパック購入を、全期間まとめてグラフで振り返れる。<br>「あの月、買いすぎたな」も、「最近おとなしいな」も、ひと目でわかる。</p>
+        <div style="margin-top:28px;display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="font-size:10px;font-weight:700;color:rgba(243,241,255,0.3);width:28px;text-align:right;flex-shrink:0">8月</span>
+            <div style="flex:1;height:10px;background:linear-gradient(90deg,#534AB7 0%,#8B84FF 72%,rgba(139,132,255,0.15) 100%);border-radius:5px"></div>
+            <span style="font-size:11px;font-weight:700;color:rgba(243,241,255,0.4);width:36px;flex-shrink:0">¥12K</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="font-size:10px;font-weight:700;color:rgba(243,241,255,0.3);width:28px;text-align:right;flex-shrink:0">7月</span>
+            <div style="flex:1;height:10px;background:linear-gradient(90deg,#534AB7 0%,#C6FF3A 48%,rgba(198,255,58,0.12) 100%);border-radius:5px"></div>
+            <span style="font-size:11px;font-weight:700;color:rgba(243,241,255,0.4);width:36px;flex-shrink:0">¥8K</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="font-size:10px;font-weight:700;color:rgba(243,241,255,0.3);width:28px;text-align:right;flex-shrink:0">6月</span>
+            <div style="flex:1;height:10px;background:linear-gradient(90deg,#534AB7 0%,#8B84FF 32%,rgba(139,132,255,0.12) 100%);border-radius:5px"></div>
+            <span style="font-size:11px;font-weight:700;color:rgba(243,241,255,0.4);width:36px;flex-shrink:0">¥5K</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="font-size:10px;font-weight:700;color:rgba(243,241,255,0.3);width:28px;text-align:right;flex-shrink:0">5月</span>
+            <div style="flex:1;height:10px;background:linear-gradient(90deg,#534AB7 0%,#8B84FF 88%,rgba(139,132,255,0.15) 100%);border-radius:5px"></div>
+            <span style="font-size:11px;font-weight:700;color:rgba(243,241,255,0.4);width:36px;flex-shrink:0">¥15K</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CSV EXPORT: 2列 -->
+      <div class="rv bcell" style="grid-column:span 2;border:1px solid rgba(139,132,255,0.15);background:#100C24;padding:32px">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.24em;color:#8B84FF;margin-bottom:12px">CSV EXPORT</div>
+        <h3 style="font-size:19px;font-weight:800;letter-spacing:-0.01em;margin-bottom:8px;color:#F3F1FF">データは、CSVで全部出せる。</h3>
+        <p style="font-size:14px;color:rgba(243,241,255,0.5);line-height:1.9">バックアップにも、自分なりの分析にも使える。</p>
+        <div style="margin-top:20px;background:rgba(139,132,255,0.05);border:1px solid rgba(139,132,255,0.14);padding:12px 14px;font-family:monospace;font-size:10px;color:rgba(243,241,255,0.4);line-height:2;border-radius:4px">
+          日付,タイトル名,タイプ,合計金額<br>
+          2026-08-02,ストームエメラルダ,BOX,¥5400<br>
+          2026-07-28,アビスアイ,パック,¥600
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── STATEMENT ──────────────────────────────────────── -->
+<section id="statement" style="text-align:center;padding:140px 0;position:relative;overflow:hidden">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:680px;height:680px;border-radius:50%;background:radial-gradient(circle,rgba(109,100,232,0.18),transparent 65%);pointer-events:none"></div>
+  <div class="rv" style="max-width:1180px;margin:0 auto;padding:0 28px;position:relative">
+    <p style="font-size:11.5px;font-weight:800;letter-spacing:.28em;color:#C6FF3A;margin-bottom:26px">OUR PHILOSOPHY</p>
+    <h2 style="font-size:clamp(34px,5.6vw,68px);font-weight:800;line-height:1.45;letter-spacing:-0.02em">
+      後悔するためじゃない。<br><span style="color:#8B84FF;text-shadow:0 0 44px rgba(139,132,255,0.5)">誇るための記録</span>だ。
+    </h2>
+  </div>
+</section>
+
+<!-- ─── PRICING ────────────────────────────────────────── -->
+<section id="price" style="padding:0 0 120px">
+  <div style="max-width:1180px;margin:0 auto;padding:0 28px">
+    <div class="rv">
+      <div style="font-size:11.5px;font-weight:800;letter-spacing:.28em;color:#C6FF3A;margin-bottom:14px">PRICING</div>
+      <h2 style="font-size:clamp(30px,4.4vw,50px);font-weight:800;letter-spacing:-0.02em;line-height:1.3;margin-bottom:16px">月額なし。<br>買い切り¥980だけ。</h2>
+      <p style="font-size:15px;color:rgba(243,241,255,0.48);max-width:34em;line-height:2">記録はずっと無料。もっと楽しみたくなったら、¥980を一度だけ。</p>
+    </div>
+
+    <div class="g-price rv" style="display:grid;grid-template-columns:1fr 1.12fr;gap:14px;margin-top:52px;align-items:stretch">
+
+      <!-- FREE -->
+      <div class="pc" style="border:1px solid rgba(139,132,255,0.15);padding:38px 34px;background:#100C24">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.24em;color:rgba(243,241,255,0.35);margin-bottom:18px">FREE</div>
+        <div style="font-size:52px;font-weight:800;letter-spacing:-0.04em;line-height:1">¥0</div>
+        <div style="font-size:14px;font-weight:700;color:rgba(243,241,255,0.35);margin:8px 0 28px">ずっと無料</div>
+        <ul style="display:grid;gap:11px;font-size:14px;font-weight:700">
+          <li style="display:flex;gap:10px;color:rgba(243,241,255,0.58)"><span style="color:#8B84FF;flex-shrink:0">✓</span>購入の記録・ホーム（無制限）</li>
+          <li style="display:flex;gap:10px;color:rgba(243,241,255,0.58)"><span style="color:#8B84FF;flex-shrink:0">✓</span>グラフ 直近2ヶ月</li>
+          <li style="display:flex;gap:10px;color:rgba(243,241,255,0.58)"><span style="color:#8B84FF;flex-shrink:0">✓</span>カレンダー 直近2ヶ月</li>
+          <li style="display:flex;gap:10px;color:rgba(243,241,255,0.58)"><span style="color:#8B84FF;flex-shrink:0">✓</span>サイズグラフ 高さのみ</li>
+          <li style="display:flex;gap:10px;color:rgba(243,241,255,0.58)"><span style="color:#8B84FF;flex-shrink:0">✓</span>PACKSヒストリー 冒頭3件</li>
+          <li style="display:flex;gap:10px;color:rgba(243,241,255,0.35)"><span style="flex-shrink:0">—</span>旧タイトルの閲覧・登録</li>
+        </ul>
+      </div>
+
+      <!-- PREMIUM -->
+      <div class="pc" style="background:linear-gradient(162deg,#2A1E6E,#5B4BE0);padding:38px 34px;position:relative;overflow:hidden;box-shadow:0 36px 80px rgba(91,75,224,0.35)">
+        <div style="position:absolute;top:-80px;right:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(198,255,58,0.22),transparent 68%);pointer-events:none"></div>
+        <div style="position:relative">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.24em;color:rgba(255,255,255,0.6);margin-bottom:18px">PREMIUM</div>
+          <div style="font-size:60px;font-weight:800;letter-spacing:-0.04em;line-height:1;color:#fff">¥980</div>
+          <div style="font-size:14px;font-weight:700;color:rgba(255,255,255,0.6);margin:8px 0 28px">買い切り · 税込 · 解約手続きも不要</div>
+          <ul style="display:grid;gap:11px;font-size:14px;font-weight:700">
+            <li style="display:flex;gap:10px;color:#fff"><span style="color:#C6FF3A;flex-shrink:0">✓</span>旧タイトルの閲覧・登録</li>
+            <li style="display:flex;gap:10px;color:#fff"><span style="color:#C6FF3A;flex-shrink:0">✓</span>全期間グラフ・カレンダー・履歴</li>
+            <li style="display:flex;gap:10px;color:#fff"><span style="color:#C6FF3A;flex-shrink:0">✓</span>今月の着地予測</li>
+            <li style="display:flex;gap:10px;color:#fff"><span style="color:#C6FF3A;flex-shrink:0">✓</span>サイズグラフ 全解放</li>
+            <li style="display:flex;gap:10px;color:#fff"><span style="color:#C6FF3A;flex-shrink:0">✓</span>PACKSヒストリー・称号（全解放）</li>
+            <li style="display:flex;gap:10px;color:#fff"><span style="color:#C6FF3A;flex-shrink:0">✓</span>CSVエクスポート</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FAQ ──────────────────────────────────────────── -->
+<section id="faq" style="padding:0 0 120px">
+  <div style="max-width:1180px;margin:0 auto;padding:0 28px">
+    <div class="rv">
+      <div style="font-size:11.5px;font-weight:800;letter-spacing:.28em;color:#C6FF3A;margin-bottom:14px">FAQ</div>
+      <h2 style="font-size:clamp(30px,4.4vw,50px);font-weight:800;letter-spacing:-0.02em;line-height:1.3">よくある質問</h2>
+    </div>
+    <div class="rv" style="max-width:760px;margin:52px auto 0">
+      <details style="border-bottom:1px solid rgba(139,132,255,0.12)">
+        <summary style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:24px 4px;font-size:16px;font-weight:800;letter-spacing:-0.01em">節約アプリですか？<span style="color:rgba(243,241,255,0.3);font-weight:400;flex-shrink:0">＋</span></summary>
+        <div style="padding:0 4px 26px;font-size:14px;color:rgba(243,241,255,0.5);line-height:2">いいえ。予算機能はありますが、怒られる機能はありません。買ったことを反省するんじゃなくて、"どれだけ積み上げてきたか"を楽しむアプリです。</div>
+      </details>
+      <details style="border-bottom:1px solid rgba(139,132,255,0.12)">
+        <summary style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:24px 4px;font-size:16px;font-weight:800;letter-spacing:-0.01em">本当に月額課金はありませんか？<span style="color:rgba(243,241,255,0.3);font-weight:400;flex-shrink:0">＋</span></summary>
+        <div style="padding:0 4px 26px;font-size:14px;color:rgba(243,241,255,0.5);line-height:2">ありません。¥980を一度払ったら、それで終わりです。月ごとに何かが引き落とされることはありません。機種変更したときは「購入を復元する」を使えば引き継げます。</div>
+      </details>
+      <details style="border-bottom:1px solid rgba(139,132,255,0.12)">
+        <summary style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:24px 4px;font-size:16px;font-weight:800;letter-spacing:-0.01em">データが外部に送られることはありませんか？<span style="color:rgba(243,241,255,0.3);font-weight:400;flex-shrink:0">＋</span></summary>
+        <div style="padding:0 4px 26px;font-size:14px;color:rgba(243,241,255,0.5);line-height:2">ありません。サーバーがないので、記録はすべてあなたのスマホの中だけにあります。通信しなくても、ぜんぶ使えます。詳しくは<a href="./privacy.html" style="color:#8B84FF;font-weight:700">プライバシーポリシー</a>をご覧ください。</div>
+      </details>
+      <details style="border-bottom:1px solid rgba(139,132,255,0.12)">
+        <summary style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:24px 4px;font-size:16px;font-weight:800;letter-spacing:-0.01em">アプリを削除するとデータはどうなりますか？<span style="color:rgba(243,241,255,0.3);font-weight:400;flex-shrink:0">＋</span></summary>
+        <div style="padding:0 4px 26px;font-size:14px;color:rgba(243,241,255,0.5);line-height:2">アプリを削除すると、記録も一緒に消えてしまいます。大切なデータは、プレミアムのCSVエクスポートで事前に書き出しておくと安心です。</div>
+      </details>
+      <details style="border-bottom:1px solid rgba(139,132,255,0.12)">
+        <summary style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:24px 4px;font-size:16px;font-weight:800;letter-spacing:-0.01em">公式アプリですか？<span style="color:rgba(243,241,255,0.3);font-weight:400;flex-shrink:0">＋</span></summary>
+        <div style="padding:0 4px 26px;font-size:14px;color:rgba(243,241,255,0.5);line-height:2">いいえ。ポケモンカードゲームの購入記録を楽しむための非公式アプリです。株式会社ポケモンおよびその関連会社とは関係ありません。</div>
+      </details>
+      <details style="border-bottom:1px solid rgba(139,132,255,0.12)">
+        <summary style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:24px 4px;font-size:16px;font-weight:800;letter-spacing:-0.01em">Android版はありますか？<span style="color:rgba(243,241,255,0.3);font-weight:400;flex-shrink:0">＋</span></summary>
+        <div style="padding:0 4px 26px;font-size:14px;color:rgba(243,241,255,0.5);line-height:2">今はiOS（App Store）のみです。Android版は今のところ未定ですが、反響次第で考えたいと思っています。</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FINAL CTA ──────────────────────────────────────── -->
+<section id="download" style="padding:0 0 120px">
+  <div style="max-width:1180px;margin:0 auto;padding:0 28px">
+    <div class="rv cta-box" style="background:linear-gradient(155deg,#08051A 0%,#18094A 28%,#2D1469 50%,#140832 78%,#08051A 100%);text-align:center;padding:110px 32px;position:relative;overflow:hidden;border:1px solid rgba(139,132,255,0.22)">
+      <!-- 左上グロー -->
+      <div style="position:absolute;top:-140px;left:-80px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(139,132,255,0.22),transparent 62%);pointer-events:none"></div>
+      <!-- 右上グロー -->
+      <div style="position:absolute;top:-80px;right:-60px;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(91,60,200,0.18),transparent 65%);pointer-events:none"></div>
+      <!-- 下中央グロー -->
+      <div style="position:absolute;bottom:-200px;left:50%;transform:translateX(-50%);width:620px;height:620px;border-radius:50%;background:radial-gradient(circle,rgba(109,100,232,0.36),transparent 65%);pointer-events:none"></div>
+      <!-- 右下アクセント -->
+      <div style="position:absolute;bottom:0;right:0;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(198,255,58,0.06),transparent 65%);pointer-events:none"></div>
+      <div style="position:relative">
+        <div style="font-size:11.5px;font-weight:800;letter-spacing:.28em;color:#C6FF3A;margin-bottom:14px">GET STARTED</div>
+        <h2 style="font-size:clamp(30px,4.4vw,52px);font-weight:800;letter-spacing:-0.02em;line-height:1.38;color:#F3F1FF;margin-bottom:14px">
+          最初の1パックが、<br>いつか富士山になる。
+        </h2>
+        <p style="font-size:15px;font-weight:700;color:rgba(243,241,255,0.45);margin-bottom:42px">今日買ったパックから、はじめよう。</p>
+        <a href="#" class="app-btn" style="display:inline-flex;align-items:center;gap:11px;background:#C6FF3A;color:#08060F;padding:16px 28px;box-shadow:0 0 48px rgba(198,255,58,0.35)">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" style="flex-shrink:0"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
+          <span>
+            <small style="display:block;font-size:10px;font-weight:700;opacity:.55;letter-spacing:.05em;line-height:1.3">COMING SOON ON THE</small>
+            <b style="display:block;font-size:16px;font-weight:800;line-height:1.3">App Store</b>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ────────────────────────────────────────── -->
+<footer style="padding:60px 0 72px;border-top:1px solid rgba(139,132,255,0.08)">
+  <div style="max-width:1180px;margin:0 auto;padding:0 28px">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:30px">
+      <span style="font-family:'Manjari',sans-serif;font-weight:700;font-size:18px;letter-spacing:.02em">PACKS</span>
+      <div style="display:flex;gap:24px;font-size:14px;font-weight:700;color:rgba(243,241,255,0.42);flex-wrap:wrap">
+        <a href="./privacy.html" style="transition:color .2s" onmouseover="this.style.color='#F3F1FF'" onmouseout="this.style.color='rgba(243,241,255,0.42)'">プライバシーポリシー</a>
+        <a href="./terms.html" style="transition:color .2s" onmouseover="this.style.color='#F3F1FF'" onmouseout="this.style.color='rgba(243,241,255,0.42)'">利用規約・著作権</a>
+        <a href="mailto:sasaki.creatives@gmail.com" style="transition:color .2s" onmouseover="this.style.color='#F3F1FF'" onmouseout="this.style.color='rgba(243,241,255,0.42)'">お問い合わせ</a>
+      </div>
+    </div>
+    <p style="font-size:11.5px;color:rgba(243,241,255,0.28);line-height:2;max-width:680px">
+      ポケモンカードゲームに関するすべての著作権・商標権は、株式会社ポケモン、任天堂株式会社、株式会社クリーチャーズ、株式会社ゲームフリークに帰属します。本アプリ「PACKS」は非公式の個人開発ツールであり、上記各社とは一切関係ありません。© 2026 PACKS
+    </p>
+  </div>
+</footer>
+
+</div>
+<script>
+const io = new IntersectionObserver(
+  entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }),
+  { threshold: 0.1 }
+);
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
